@@ -146,6 +146,33 @@ void EntityNodeIndex::addProperty(
   m_valueIndex->insert(value, node);
 }
 
+void EntityNodeIndex::addInput(EntityNodeBase* node, const std::string& name)
+{
+  m_inputIndex->insert(name, node);
+}
+void EntityNodeIndex::removeInput(EntityNodeBase* node, const std::string& name)
+{
+  m_inputIndex->remove(name, node);
+}
+std::vector<EntityNodeBase*> EntityNodeIndex::findInputNodes(
+  const EntityNodeIndexQuery& inputQuery, const std::string& name) const
+{
+  std::vector<EntityNodeBase*> result;
+
+  m_inputIndex->find_matches(name, std::back_inserter(result));
+  if (result.empty())
+  {
+    return {};
+  }
+
+  result = kdl::vec_sort_and_remove_duplicates(std::move(result));
+
+  std::erase_if(result, [name, inputQuery](const EntityNodeBase* item) {
+    return inputQuery.execute(item, name);
+  });
+  return result;
+}
+
 void EntityNodeIndex::removeProperty(
   EntityNodeBase* node, const std::string& key, const std::string& value)
 {

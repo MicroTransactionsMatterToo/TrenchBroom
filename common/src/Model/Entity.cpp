@@ -26,6 +26,7 @@
 #include "Model/EntityProperties.h"
 #include "Model/EntityPropertiesVariableStore.h"
 #include "Model/EntityRotation.h"
+#include "Model/IOLink.h"
 
 #include "kdl/reflection_impl.h"
 #include "kdl/string_utils.h"
@@ -74,7 +75,7 @@ const vm::bbox3 Entity::DefaultBounds = vm::bbox3{8.0};
 
 Entity::Entity()
   : m_cachedProperties{
-    EntityPropertyValues::NoClassname, vm::vec3{}, vm::mat4x4{}, vm::mat4x4{}}
+      EntityPropertyValues::NoClassname, vm::vec3{}, vm::mat4x4{}, vm::mat4x4{}}
 {
 }
 
@@ -97,6 +98,7 @@ const std::vector<EntityProperty>& Entity::properties() const
 {
   return m_properties;
 }
+
 
 Entity::Entity(const Entity& other) = default;
 Entity::Entity(Entity&& other) = default;

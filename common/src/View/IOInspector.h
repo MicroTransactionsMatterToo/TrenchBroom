@@ -1,5 +1,5 @@
 /*
- Copyright (C) 2010-2017 Kristian Duske
+Copyright (C) 2024 Ennis Massey
 
  This file is part of TrenchBroom.
 
@@ -19,54 +19,39 @@
 
 #pragma once
 
-#include <QWidget>
+#include "View/TabBook.h"
 
 #include <memory>
 
+class QSplitter;
 
-namespace TrenchBroom
+namespace TrenchBroom::View
 {
-namespace View
-{
-class FaceInspector;
-class EntityInspector;
+
+class IOOutputEditor;
+class IOBrowser;
 class GLContextManager;
 class MapDocument;
-class MapInspector;
-class MapViewBar;
-class SyncHeightEventFilter;
-class TabBook;
-class IOInspector;
 
-enum class InspectorPage
-{
-  Map = 0,
-  Entity = 1,
-  Face = 2
-};
 
-class Inspector : public QWidget
+class IOInspector : public TabBookPage
 {
   Q_OBJECT
 private:
-  TabBook* m_tabBook;
-  MapInspector* m_mapInspector;
-  EntityInspector* m_entityInspector;
-  FaceInspector* m_faceInspector;
-  IOInspector* m_ioInspector;
-
-  SyncHeightEventFilter* m_syncTabBarEventFilter;
+  QSplitter* m_splitter = nullptr;
+  IOOutputEditor* m_outputEditor = nullptr;
 
 public:
-  Inspector(
+  IOInspector(
     std::weak_ptr<MapDocument> document,
     GLContextManager& contextManager,
     QWidget* parent = nullptr);
-  void connectTopWidgets(MapViewBar* mapViewBar);
-  void switchToPage(InspectorPage page);
-  bool cancelMouseDrag();
+  ~IOInspector() override;
 
-  FaceInspector* faceInspector();
+private:
+  void createGui(std::weak_ptr<MapDocument> document, GLContextManager& contextManager);
+  // QWidget* createOutputEditor(QWidget* parent, std::weak_ptr<MapDocument> document);
+  QWidget* createIOBrowser(QWidget* parent, std::weak_ptr<MapDocument> document);
 };
-} // namespace View
-} // namespace TrenchBroom
+
+} // namespace TrenchBroom::View

@@ -23,6 +23,7 @@
 #include "Macros.h"
 #include "Model/EntityProperties.h"
 
+#include "kdl/range_utils.h"
 #include "kdl/string_compare.h"
 #include "kdl/vector_utils.h"
 
@@ -107,6 +108,12 @@ const PropertyDefinition* EntityDefinition::propertyDefinition(
   return safeGetPropertyDefinition(this, propertyKey);
 }
 
+const std::vector<std::shared_ptr<PropertyDefinition>>& EntityDefinition::ioDefinitions()
+  const
+{
+  return m_ioDefinitions;
+}
+
 const PropertyDefinition* EntityDefinition::safeGetPropertyDefinition(
   const EntityDefinition* entityDefinition, const std::string& propertyKey)
 {
@@ -183,6 +190,13 @@ EntityDefinition::EntityDefinition(
   , m_usageCount{0}
   , m_propertyDefinitions{std::move(propertyDefinitions)}
 {
+  m_ioDefinitions =
+    m_propertyDefinitions
+    | std::views::filter([](const std::shared_ptr<PropertyDefinition>& def) {
+        return def->type() == PropertyDefinitionType::OutputProperty
+               || def->type() == PropertyDefinitionType::InputProperty;
+      })
+    | kdl::to_vector();
 }
 
 PointEntityDefinition::PointEntityDefinition(
@@ -226,7 +240,7 @@ BrushEntityDefinition::BrushEntityDefinition(
   std::string description,
   std::vector<std::shared_ptr<PropertyDefinition>> propertyDefinitions)
   : EntityDefinition{
-    std::move(name), color, std::move(description), std::move(propertyDefinitions)}
+      std::move(name), color, std::move(description), std::move(propertyDefinitions)}
 {
 }
 

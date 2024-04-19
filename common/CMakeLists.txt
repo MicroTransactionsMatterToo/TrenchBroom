@@ -334,8 +334,8 @@ set(COMMON_SOURCE
         ${COMMON_SOURCE_DIR}/View/EntityPropertyGrid.cpp
         ${COMMON_SOURCE_DIR}/View/EntityPropertyItemDelegate.cpp
         ${COMMON_SOURCE_DIR}/View/EntityPropertyModel.cpp
-        ${COMMON_SOURCE_DIR}/View/EntityPropertyTable.cpp
         ${COMMON_SOURCE_DIR}/View/ExtrudeTool.cpp
+        ${COMMON_SOURCE_DIR}/View/EntityPropertyTable.cpp
         ${COMMON_SOURCE_DIR}/View/ExtrudeToolController.cpp
         ${COMMON_SOURCE_DIR}/View/FaceAttribsEditor.cpp
         ${COMMON_SOURCE_DIR}/View/FaceInspector.cpp
@@ -480,6 +480,12 @@ set(COMMON_SOURCE
         ${COMMON_SOURCE_DIR}/View/ViewPreferencePane.cpp
         ${COMMON_SOURCE_DIR}/View/ViewUtils.cpp
         ${COMMON_SOURCE_DIR}/View/WelcomeWindow.cpp
+        ${COMMON_SOURCE_DIR}/View/IOInspector.cpp
+        ${COMMON_SOURCE_DIR}/View/IOBrowser.cpp
+        ${COMMON_SOURCE_DIR}/View/IOPropertyModel.cpp
+        ${COMMON_SOURCE_DIR}/View/IOTable.cpp
+        ${COMMON_SOURCE_DIR}/View/IOItemDelegate.cpp
+        ${COMMON_SOURCE_DIR}/Model/IOLink.cpp
 )
 
 set(COMMON_HEADER
@@ -1010,6 +1016,12 @@ set(COMMON_HEADER
         ${COMMON_SOURCE_DIR}/View/ViewPreferencePane.h
         ${COMMON_SOURCE_DIR}/View/ViewUtils.h
         ${COMMON_SOURCE_DIR}/View/WelcomeWindow.h
+        ${COMMON_SOURCE_DIR}/View/IOInspector.h
+        ${COMMON_SOURCE_DIR}/View/IOBrowser.h
+        ${COMMON_SOURCE_DIR}/View/IOPropertyModel.h
+        ${COMMON_SOURCE_DIR}/View/IOTable.h
+        ${COMMON_SOURCE_DIR}/View/IOItemDelegate.h
+        ${COMMON_SOURCE_DIR}/Model/IOLink.h
 )
 
 add_library(common OBJECT ${COMMON_SOURCE} ${COMMON_HEADER})

@@ -50,7 +50,9 @@ enum class EntityDefinitionSortOrder
   Usage
 };
 
-class EntityDefinition
+using IODefinitionView = std::ranges::ref_view<std::vector<std::shared_ptr<PropertyDefinition>>>;
+
+  class EntityDefinition
 {
 private:
   size_t m_index;
@@ -59,6 +61,7 @@ private:
   std::string m_description;
   std::atomic<size_t> m_usageCount;
   std::vector<std::shared_ptr<PropertyDefinition>> m_propertyDefinitions;
+  std::vector<std::shared_ptr<PropertyDefinition>> m_ioDefinitions;
 
 public:
   virtual ~EntityDefinition();
@@ -78,6 +81,7 @@ public:
 
   const FlagsPropertyDefinition* spawnflags() const;
   const std::vector<std::shared_ptr<PropertyDefinition>>& propertyDefinitions() const;
+  const std::vector<std::shared_ptr<PropertyDefinition>>& ioDefinitions() const;
   const PropertyDefinition* propertyDefinition(const std::string& propertyKey) const;
 
   static const PropertyDefinition* safeGetPropertyDefinition(

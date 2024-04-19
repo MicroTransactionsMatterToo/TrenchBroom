@@ -80,6 +80,8 @@ using UnknownPropertyDefinition =
   PropertyDefinitionT<PropertyDefinitionType::UnknownProperty>;
 using BooleanPropertyDefinition =
   PropertyDefinitionT<PropertyDefinitionType::BooleanProperty>;
+using OutputPropertyDefinition =
+  PropertyDefinitionT<PropertyDefinitionType::OutputProperty>;
 
 using NoValue = char;
 using NoDefaultValue = char;

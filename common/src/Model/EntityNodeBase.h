@@ -36,6 +36,7 @@ class EntityDefinition;
 
 namespace TrenchBroom::Model
 {
+class IOLink;
 
 const Assets::EntityDefinition* selectEntityDefinition(
   const std::vector<EntityNodeBase*>& nodes);
@@ -57,6 +58,7 @@ protected:
   std::vector<EntityNodeBase*> m_linkTargets;
   std::vector<EntityNodeBase*> m_killSources;
   std::vector<EntityNodeBase*> m_killTargets;
+
 
 public:
   ~EntityNodeBase() override;

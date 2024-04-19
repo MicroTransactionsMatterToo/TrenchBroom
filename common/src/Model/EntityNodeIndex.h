@@ -19,6 +19,8 @@
 
 #pragma once
 
+#include "EntityNodeBase.h"
+
 #include "kdl/compact_trie_forward.h"
 
 #include <memory>
@@ -69,6 +71,7 @@ class EntityNodeIndex
 private:
   std::unique_ptr<EntityNodeStringIndex> m_keyIndex;
   std::unique_ptr<EntityNodeStringIndex> m_valueIndex;
+  std::unique_ptr<EntityNodeStringIndex> m_inputIndex;
 
 public:
   EntityNodeIndex();
@@ -81,6 +84,12 @@ public:
     EntityNodeBase* node, const std::string& key, const std::string& value);
   void removeProperty(
     EntityNodeBase* node, const std::string& key, const std::string& value);
+
+  void addInput(EntityNodeBase* node, const std::string& name);
+  void removeInput(EntityNodeBase* node, const std::string& name);
+
+  std::vector<EntityNodeBase*> findInputNodes(
+    const EntityNodeIndexQuery& inputQuery, const std::string& name) const;
 
   std::vector<EntityNodeBase*> findEntityNodes(
     const EntityNodeIndexQuery& keyQuery, const std::string& value) const;

@@ -19,9 +19,12 @@
 
 #pragma once
 
+#include <QUuid>
+
 #include "Assets/AssetReference.h"
 #include "FloatType.h"
 #include "Model/EntityProperties.h"
+#include "Model/IOLink.h"
 
 #include "kdl/reflection_decl.h"
 
@@ -32,6 +35,10 @@
 #include <string>
 #include <vector>
 
+namespace TrenchBroom::Model
+{
+using IOParameter = std::variant<int, float, std::string, std::nullptr_t>;
+} // namespace TrenchBroom::Model
 namespace TrenchBroom::Assets
 {
 struct DecalSpecification;
@@ -92,9 +99,10 @@ public:
 
 private:
   std::vector<EntityProperty> m_properties;
+  std::vector<IOLink> m_ioLinks;
   std::vector<std::string> m_protectedProperties;
 
-  kdl_reflect_decl(Entity, m_properties, m_protectedProperties);
+  kdl_reflect_decl(Entity, m_properties, m_ioLinks, m_protectedProperties);
 
   /**
    * Specifies whether this entity has children or not. This does not necessarily
@@ -212,6 +220,23 @@ private:
     const EntityPropertyConfig& propertyConfig, const vm::mat4x4& rotation);
 
   void updateCachedProperties(const EntityPropertyConfig& propertyConfig);
+  // IO management
+public:
+  const std::vector<IOLink>& ioLinks() const;
+  void addOutput(
+    std::string trigger,
+    std::string targetName,
+    std::string targetInput,
+    float refireCount,
+    IOParameter paramValue);
+  void updateOutput(
+    QUuid uuid,
+    std::string targetName,
+    std::string targetInput,
+    float refireCount,
+    float fireDelay);
+  void updateOutputParameter(QUuid uuid, IOParameter paramValue);
+
 };
 
 } // namespace TrenchBroom::Model
