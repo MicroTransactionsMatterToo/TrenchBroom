@@ -480,11 +480,17 @@ set(COMMON_SOURCE
         ${COMMON_SOURCE_DIR}/View/ViewPreferencePane.cpp
         ${COMMON_SOURCE_DIR}/View/ViewUtils.cpp
         ${COMMON_SOURCE_DIR}/View/WelcomeWindow.cpp
-        ${COMMON_SOURCE_DIR}/View/IOInspector.cpp
-        ${COMMON_SOURCE_DIR}/View/IOBrowser.cpp
-        ${COMMON_SOURCE_DIR}/View/IOPropertyModel.cpp
-        ${COMMON_SOURCE_DIR}/View/IOTable.cpp
-        ${COMMON_SOURCE_DIR}/View/IOItemDelegate.cpp
+        ${COMMON_SOURCE_DIR}/View/IO/IOInspector.cpp
+        ${COMMON_SOURCE_DIR}/View/IO/IOBrowser.cpp
+        ${COMMON_SOURCE_DIR}/View/IO/IOConnectionEditor.cpp
+        ${COMMON_SOURCE_DIR}/View/IO/IOSlotGrid.cpp
+        ${COMMON_SOURCE_DIR}/View/IO/IOSlotTable.cpp
+        ${COMMON_SOURCE_DIR}/View/IO/IOSlotModel.cpp
+        ${COMMON_SOURCE_DIR}/View/IO/IOInputListing.cpp
+        ${COMMON_SOURCE_DIR}/View/IO/IOOutputEditor.cpp
+        ${COMMON_SOURCE_DIR}/View/IO/IOConnectionGrid.cpp
+        ${COMMON_SOURCE_DIR}/View/IO/IOConnectionTable.cpp
+        ${COMMON_SOURCE_DIR}/View/IO/IOConnectionModel.cpp
         ${COMMON_SOURCE_DIR}/Model/IOLink.cpp
 )
 
@@ -1016,11 +1022,17 @@ set(COMMON_HEADER
         ${COMMON_SOURCE_DIR}/View/ViewPreferencePane.h
         ${COMMON_SOURCE_DIR}/View/ViewUtils.h
         ${COMMON_SOURCE_DIR}/View/WelcomeWindow.h
-        ${COMMON_SOURCE_DIR}/View/IOInspector.h
-        ${COMMON_SOURCE_DIR}/View/IOBrowser.h
-        ${COMMON_SOURCE_DIR}/View/IOPropertyModel.h
-        ${COMMON_SOURCE_DIR}/View/IOTable.h
-        ${COMMON_SOURCE_DIR}/View/IOItemDelegate.h
+        ${COMMON_SOURCE_DIR}/View/IO/IOInspector.h
+        ${COMMON_SOURCE_DIR}/View/IO/IOBrowser.h
+        ${COMMON_SOURCE_DIR}/View/IO/IOConnectionEditor.h
+        ${COMMON_SOURCE_DIR}/View/IO/IOSlotGrid.h
+        ${COMMON_SOURCE_DIR}/View/IO/IOSlotTable.h
+        ${COMMON_SOURCE_DIR}/View/IO/IOSlotModel.h
+        ${COMMON_SOURCE_DIR}/View/IO/IOInputListing.h
+        ${COMMON_SOURCE_DIR}/View/IO/IOOutputEditor.h
+        ${COMMON_SOURCE_DIR}/View/IO/IOConnectionGrid.h
+        ${COMMON_SOURCE_DIR}/View/IO/IOConnectionTable.h
+        ${COMMON_SOURCE_DIR}/View/IO/IOConnectionModel.h
         ${COMMON_SOURCE_DIR}/Model/IOLink.h
 )
 

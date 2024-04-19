@@ -21,7 +21,7 @@
 
 #include <QVBoxLayout>
 
-#include "IOInspector.h"
+#include "View/IO/IOInspector.h"
 #include "View/EntityInspector.h"
 #include "View/FaceInspector.h"
 #include "View/MapInspector.h"
@@ -48,7 +48,7 @@ Inspector::Inspector(
   m_mapInspector = new MapInspector(document);
   m_entityInspector = new EntityInspector(document, contextManager);
   m_faceInspector = new FaceInspector(document, contextManager);
-  m_ioInspector = new IOInspector(document, contextManager);
+  m_ioInspector = new IOInspector(document);
 
   m_tabBook->addPage(m_mapInspector, "Map");
   m_tabBook->addPage(m_entityInspector, "Entity");
