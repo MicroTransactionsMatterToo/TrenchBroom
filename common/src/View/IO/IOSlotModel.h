@@ -22,11 +22,8 @@
 #pragma once
 #include <QAbstractTableModel>
 
+#include "Assets/PropertyDefinition.h"
 
-namespace TrenchBroom::View
-{
-class MapDocument;
-}
 
 namespace TrenchBroom
 {
@@ -37,30 +34,18 @@ class EntityNodeBase;
 
 namespace View
 {
+class MapDocument;
 
 enum class SlotDirection
 {
+  Unset,
   Input,
   Output
 };
 
-enum class SlotParamType
-{
-  Void,
-  String,
-  Float,
-  Integer,
-  Bool
-};
+using SlotParamType = Assets::IOType;
 
-enum class SlotModelFilter
-{
-  All,
-  Output,
-  Input
-};
-
-class SlotRow
+class SlotRow final
 {
 private:
   std::string m_key;
@@ -70,13 +55,22 @@ private:
   std::string m_tooltip;
 
 public:
-  SlotRow();
-  SlotRow(std::string key, const Model::EntityNodeBase* node);
+  SlotRow(
+    std::string key,
+    SlotDirection direction,
+    SlotParamType paramType,
+    std::string tooltip);
 
   const std::string& key() const;
   SlotDirection direction() const;
   SlotParamType paramType() const;
   const std::string& tooltip() const;
+
+  static SlotRow rowForIODef(
+    const std::shared_ptr<Assets::OutputPropertyDefinition>& definition);
+  static SlotRow rowForIODef(
+    const std::shared_ptr<Assets::InputPropertyDefinition>& definition);
+  static std::vector<SlotRow> rowsForEntityNode(const Model::EntityNodeBase* node);
 };
 
 /**
@@ -85,10 +79,20 @@ public:
 class IOSlotModel : public QAbstractTableModel
 {
   Q_OBJECT
+public:
+  static constexpr int NumColumns = 4;
+  enum
+  {
+    ColumnDirection,
+    ColumnSlotName,
+    ColumnParamType,
+    ColumnDescription
+  };
+
 private:
   std::vector<SlotRow> m_rows;
   std::weak_ptr<MapDocument> m_document;
-  SlotModelFilter m_filter;
+  SlotDirection m_filter;
 
 public:
   explicit IOSlotModel(std::weak_ptr<MapDocument> document, QObject* parent);
@@ -96,11 +100,18 @@ public:
   const std::vector<SlotRow>& rows() const;
   void setRows(const std::vector<SlotRow>& rows);
 
-  SlotModelFilter filter() const;
-  void setFilter(SlotModelFilter filter);
+  SlotDirection filter() const;
+  void setFilter(SlotDirection filter);
 
+  int rowCount(const QModelIndex& parent) const override;
+  int columnCount(const QModelIndex& parent) const override;
+  QVariant data(const QModelIndex& index, int role) const override;
+
+  QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
+
+public slots:
+  void updateFromMapDocument();
 };
 
 } // namespace View
 } // namespace TrenchBroom
-

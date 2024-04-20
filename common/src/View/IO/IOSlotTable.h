@@ -19,21 +19,20 @@
  *
  */
 
-//
-// Created by ennis on 19/04/24.
-//
+#pragma once
+#include <QTableView>
 
-#ifndef IOSLOTTABLE_H
-#define IOSLOTTABLE_H
 
 namespace TrenchBroom {
 namespace View {
 
-class IOSlotTable {
+class IOSlotTable : public  QTableView  {
+Q_OBJECT
+private:
 
+public:
+  explicit IOSlotTable(QWidget* parent = nullptr);
 };
 
 } // View
 } // TrenchBroom
-
-#endif //IOSLOTTABLE_H

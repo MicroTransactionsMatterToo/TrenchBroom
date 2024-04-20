@@ -63,6 +63,14 @@ enum class IOType
   Unknown
 };
 
+const std::unordered_map<IOType, std::string> IOTypeMap = {
+  {IOType::Void, "void"},
+  {IOType::Bool, "bool"},
+  {IOType::Float, "float"},
+  {IOType::Integer, "integer"},
+  {IOType::String, "string"},
+  {IOType::Unknown, "unknown"}};
+
 template <PropertyDefinitionType T>
 class PropertyDefinitionT;
 
@@ -82,6 +90,8 @@ using BooleanPropertyDefinition =
   PropertyDefinitionT<PropertyDefinitionType::BooleanProperty>;
 using OutputPropertyDefinition =
   PropertyDefinitionT<PropertyDefinitionType::OutputProperty>;
+using InputPropertyDefinition =
+  PropertyDefinitionT<PropertyDefinitionType::InputProperty>;
 
 using NoValue = char;
 using NoDefaultValue = char;

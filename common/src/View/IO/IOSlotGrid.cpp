@@ -19,13 +19,46 @@
  *
  */
 
-//
-// Created by ennis on 19/04/24.
-//
-
 #include "IOSlotGrid.h"
 
-namespace TrenchBroom {
-namespace View {
-} // View
-} // TrenchBroom
+#include <QHeaderView>
+
+#include "IOSlotModel.h"
+#include "IOSlotTable.h"
+#include "View/QtUtils.h"
+
+namespace TrenchBroom
+{
+namespace View
+{
+IOSlotGrid::IOSlotGrid(const std::weak_ptr<MapDocument>& document, QWidget* parent)
+  : QWidget{parent}
+  , m_document{document}
+{
+  createGui(document);
+}
+void IOSlotGrid::createGui(std::weak_ptr<MapDocument> document)
+{
+  m_table = new IOSlotTable{};
+
+  m_model = new IOSlotModel{document, this};
+
+  m_table->setModel(m_model);
+
+  autoResizeRows(m_table);
+
+  m_table->verticalHeader()->setVisible(false);
+  m_table->horizontalHeader()->setSectionResizeMode(
+    IOSlotModel::ColumnSlotName, QHeaderView::ResizeToContents);
+  m_table->horizontalHeader()->setSectionResizeMode(
+    IOSlotModel::ColumnDescription, QHeaderView::Interactive);
+  m_table->horizontalHeader()->setSectionResizeMode(
+    IOSlotModel::ColumnParamType, QHeaderView::ResizeToContents);
+  m_table->horizontalHeader()->setSectionResizeMode(
+    IOSlotModel::ColumnDescription, QHeaderView::ResizeToContents);
+  m_table->horizontalHeader()->setSectionsClickable(false);
+  m_table->setSelectionBehavior(QAbstractItemView::SelectItems);
+
+}
+} // namespace View
+} // namespace TrenchBroom

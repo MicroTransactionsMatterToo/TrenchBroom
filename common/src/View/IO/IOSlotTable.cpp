@@ -19,13 +19,14 @@
  *
  */
 
-//
-// Created by ennis on 19/04/24.
-//
 
 #include "IOSlotTable.h"
 
 namespace TrenchBroom {
 namespace View {
+
+IOSlotTable::IOSlotTable(QWidget* parent)
+  : QTableView{parent}
+{}
 } // View
 } // TrenchBroom

@@ -20,44 +20,5 @@
  */
 
 //
-// Created by ennis on 19/04/24.
-//
 
-#pragma once
-
-
-class QSortFilterProxyModel;
-namespace TrenchBroom::View
-{
-class IOSlotTable;
-}
-namespace TrenchBroom::View
-{
-class IOSlotModel;
-}
-namespace TrenchBroom
-{
-namespace View
-{
-class MapDocument;
-
-class IOSlotGrid : public QWidget
-{
-  Q_OBJECT
-private:
-  std::weak_ptr<MapDocument> m_document;
-
-  IOSlotModel* m_model;
-  QSortFilterProxyModel* m_proxyModel;
-  IOSlotTable* m_table;
-
-public:
-  explicit IOSlotGrid(
-    const std::weak_ptr<MapDocument>& document, QWidget* parent = nullptr);
-
-private:
-  void createGui(std::weak_ptr<MapDocument> document);
-};
-
-} // namespace View
-} // namespace TrenchBroom
+#include "IOSlotDelegate.h"

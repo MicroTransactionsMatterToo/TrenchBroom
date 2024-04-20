@@ -19,21 +19,31 @@
  *
  */
 
-//
-// Created by ennis on 19/04/24.
-//
+#pragma once
 
-#ifndef IOOUTPUTEDITOR_H
-#define IOOUTPUTEDITOR_H
 
-namespace TrenchBroom {
-namespace View {
+class QTextEdit;
+namespace TrenchBroom
+{
+namespace View
+{
 
-class IOOutputEditor {
+class MapDocument;
+class IOConnectionGrid;
 
+class IOOutputEditor : public QWidget
+{
+  Q_OBJECT
+private:
+  std::weak_ptr<MapDocument> m_document;
+  IOConnectionGrid* m_outputGrid;
+
+  QTextEdit* m_documentationText;
+
+public:
+  explicit IOOutputEditor(std::weak_ptr<MapDocument> document, QWidget* parent = nullptr);
+  ~IOOutputEditor() override;
 };
 
-} // View
-} // TrenchBroom
-
-#endif //IOOUTPUTEDITOR_H
+} // namespace View
+} // namespace TrenchBroom
