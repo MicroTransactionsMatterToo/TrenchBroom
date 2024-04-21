@@ -25,6 +25,7 @@
 
 #ifndef IOINPUTLISTING_H
 #define IOINPUTLISTING_H
+#include "View/TabBook.h"
 
 namespace TrenchBroom::View
 {
@@ -37,7 +38,7 @@ class IOConnectionGrid;
 namespace TrenchBroom {
 namespace View {
 
-class IOInputListing : public QWidget {
+class IOInputListing : public TabBookPage {
   Q_OBJECT
 private:
   std::weak_ptr<MapDocument> m_document;

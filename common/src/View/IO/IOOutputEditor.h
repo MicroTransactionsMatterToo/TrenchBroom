@@ -20,6 +20,7 @@
  */
 
 #pragma once
+#include "View/TabBook.h"
 
 
 class QTextEdit;
@@ -31,7 +32,7 @@ namespace View
 class MapDocument;
 class IOConnectionGrid;
 
-class IOOutputEditor : public QWidget
+class IOOutputEditor : public TabBookPage
 {
   Q_OBJECT
 private:

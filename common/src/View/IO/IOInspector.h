@@ -32,7 +32,7 @@ class IOInspector : public TabBookPage
   Q_OBJECT
 private:
   QSplitter* m_splitter = nullptr;
-  IOConnectionEditor* m_connectionEditor = nullptr;
+  QWidget* m_connectionEditor = nullptr;
   IOBrowser* m_ioBrowser = nullptr;
 
 public:
@@ -41,8 +41,8 @@ public:
 
 private:
   void createGui(std::weak_ptr<MapDocument> document);
-  QWidget* createConnectionEditor(QWidget* parent, std::weak_ptr<MapDocument> document);
-  QWidget* createIOBrowser(QWidget* parent, std::weak_ptr<MapDocument>);
+  void createConnectionEditor(QWidget* parent, std::weak_ptr<MapDocument> document);
+  void createIOBrowser(QWidget* parent, const std::weak_ptr<MapDocument>& document);
 };
 
 } // namespace View

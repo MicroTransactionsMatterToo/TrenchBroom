@@ -25,7 +25,47 @@
 
 #include "IOConnectionEditor.h"
 
-namespace TrenchBroom {
-namespace View {
-} // View
-} // TrenchBroom
+#include "IOInputListing.h"
+#include "IOOutputEditor.h"
+#include "View/QtUtils.h"
+#include "View/TabBook.h"
+
+namespace TrenchBroom
+{
+namespace View
+{
+IOConnectionEditor::IOConnectionEditor(
+  const std::weak_ptr<MapDocument>& document, QWidget* parent)
+  : QWidget{parent}
+  , m_document{document}
+{
+  createGui();
+}
+IOConnectionEditor::~IOConnectionEditor() = default;
+
+void IOConnectionEditor::createGui()
+{
+  m_tabBook = new TabBook{};
+
+  createOutputEditor();
+  createInputListing();
+
+  m_tabBook->addPage(m_outputEditor, "Outputs");
+  m_tabBook->addPage(m_inputListing, "Inputs");
+
+  auto* layout = new QVBoxLayout{};
+  layout->setContentsMargins(0, 0, 0, 0);
+  layout->addWidget(m_tabBook);
+  setLayout(layout);
+}
+void IOConnectionEditor::createOutputEditor()
+{
+  m_outputEditor = new IOOutputEditor{m_document, m_tabBook};
+}
+void IOConnectionEditor::createInputListing()
+{
+  m_inputListing = new IOInputListing{m_document, m_tabBook};
+}
+
+} // namespace View
+} // namespace TrenchBroom

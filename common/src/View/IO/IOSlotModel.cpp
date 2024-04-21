@@ -25,6 +25,8 @@
 
 #include "IOSlotModel.h"
 
+#include <QtDebug>
+
 #include "Assets/EntityDefinition.h"
 #include "IO/ResourceUtils.h"
 #include "Macros.h"
@@ -101,6 +103,11 @@ std::vector<SlotRow> SlotRow::rowsForEntityNode(const Model::EntityNodeBase* nod
 {
   auto result = std::vector<SlotRow>{};
 
+  if (node->entity().definition() == nullptr)
+  {
+    return {};
+  }
+
   for (auto nodeIOdefs = node->entity().definition()->ioDefinitions();
        const auto& definition : nodeIOdefs)
   {
@@ -136,14 +143,15 @@ const std::vector<SlotRow>& IOSlotModel::rows() const
 
 void IOSlotModel::setRows(const std::vector<SlotRow>& rows)
 {
+  beginResetModel();
   m_rows = rows;
+  endResetModel();
 }
 
 SlotDirection IOSlotModel::filter() const
 {
   return m_filter;
 }
-
 
 void IOSlotModel::setFilter(const SlotDirection filter)
 {
@@ -152,7 +160,7 @@ void IOSlotModel::setFilter(const SlotDirection filter)
 
 void IOSlotModel::updateFromMapDocument()
 {
-  MODEL_LOG(qDebug() << "IOSlotModel::updateFromMapDocument()");
+  qDebug() << "IOSlotModel::updateFromMapDocument()";
 
   const auto document = kdl::mem_lock(m_document);
 
@@ -160,7 +168,9 @@ void IOSlotModel::updateFromMapDocument()
   // We don't handle multiple entities slots at the moment, maybe in future
   if (entityNodes.size() > 1 || entityNodes.empty())
   {
+    qDebug() << "IOSlotModel::updateFromMapDocument() ignore multi-select";
     setRows({});
+    return;
   }
   auto rows = SlotRow::rowsForEntityNode(entityNodes.front());
   std::erase_if(rows, [this](const SlotRow& item) {
@@ -245,7 +255,7 @@ QVariant IOSlotModel::data(const QModelIndex& index, int role) const
 
 QVariant IOSlotModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-  if (orientation == Qt::Vertical)
+  if (orientation == Qt::Vertical || role != Qt::DisplayRole)
   {
     return QVariant{};
   }
@@ -261,7 +271,7 @@ QVariant IOSlotModel::headerData(int section, Qt::Orientation orientation, int r
   case ColumnDescription:
     return QVariant{tr("Desc.")};
   default:
-    return QVariant{};
+    return QVariant{"UNKNOWN"};
   }
 }
 

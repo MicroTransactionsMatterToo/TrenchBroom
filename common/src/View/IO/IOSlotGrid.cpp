@@ -22,10 +22,14 @@
 #include "IOSlotGrid.h"
 
 #include <QHeaderView>
+#include <QTimer>
 
 #include "IOSlotModel.h"
 #include "IOSlotTable.h"
+#include "View/MapDocument.h"
 #include "View/QtUtils.h"
+
+#include "kdl/memory_utils.h"
 
 namespace TrenchBroom
 {
@@ -36,8 +40,9 @@ IOSlotGrid::IOSlotGrid(const std::weak_ptr<MapDocument>& document, QWidget* pare
   , m_document{document}
 {
   createGui(document);
+  connectObservers();
 }
-void IOSlotGrid::createGui(std::weak_ptr<MapDocument> document)
+void IOSlotGrid::createGui(const std::weak_ptr<MapDocument>& document)
 {
   m_table = new IOSlotTable{};
 
@@ -48,17 +53,62 @@ void IOSlotGrid::createGui(std::weak_ptr<MapDocument> document)
   autoResizeRows(m_table);
 
   m_table->verticalHeader()->setVisible(false);
+  m_table->horizontalHeader()->setVisible(true);
+  m_table->horizontalHeader()->setSectionResizeMode(
+    IOSlotModel::ColumnDirection, QHeaderView::Fixed);
+  m_table->horizontalHeader()->resizeSection(IOSlotModel::ColumnDirection, 50);
   m_table->horizontalHeader()->setSectionResizeMode(
     IOSlotModel::ColumnSlotName, QHeaderView::ResizeToContents);
   m_table->horizontalHeader()->setSectionResizeMode(
-    IOSlotModel::ColumnDescription, QHeaderView::Interactive);
-  m_table->horizontalHeader()->setSectionResizeMode(
     IOSlotModel::ColumnParamType, QHeaderView::ResizeToContents);
-  m_table->horizontalHeader()->setSectionResizeMode(
-    IOSlotModel::ColumnDescription, QHeaderView::ResizeToContents);
+  m_table->horizontalHeader()->setStretchLastSection(true);
   m_table->horizontalHeader()->setSectionsClickable(false);
   m_table->setSelectionBehavior(QAbstractItemView::SelectItems);
 
+
+  auto* layout = new QVBoxLayout{};
+  layout->setContentsMargins(0, 0, 0, 0);
+  layout->setSpacing(0);
+  layout->addWidget(m_table, 1);
+  setLayout(layout);
+}
+void IOSlotGrid::setFilter(const SlotDirection filter) const
+{
+  m_model->setFilter(filter);
+}
+
+void IOSlotGrid::connectObservers()
+{
+  auto document = kdl::mem_lock(m_document);
+  m_notifierConnection +=
+    document->documentWasNewedNotifier.connect(this, &IOSlotGrid::documentWasNewed);
+  m_notifierConnection +=
+    document->documentWasLoadedNotifier.connect(this, &IOSlotGrid::documentWasLoaded);
+  m_notifierConnection +=
+    document->selectionDidChangeNotifier.connect(this, &IOSlotGrid::selectionDidChange);
+}
+void IOSlotGrid::documentWasNewed(MapDocument* document)
+{
+  updateControls();
+}
+void IOSlotGrid::documentWasLoaded(MapDocument* document)
+{
+  updateControls();
+}
+void IOSlotGrid::nodesDidChange(const std::vector<Model::Node*>& nodes)
+{
+  qDebug() << "NodesDidChange";
+  updateControls();
+}
+void IOSlotGrid::selectionDidChange(const Selection& selection)
+{
+  qDebug() << "SelectionDidChange ENTER";
+  updateControls();
+  qDebug() << "SelectionDidChange EXIT";
+}
+void IOSlotGrid::updateControls()
+{
+  QTimer::singleShot(0, this, [&]() { m_model->updateFromMapDocument(); });
 }
 } // namespace View
 } // namespace TrenchBroom

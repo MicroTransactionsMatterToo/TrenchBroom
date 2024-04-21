@@ -24,8 +24,17 @@
 //
 
 #pragma once
+#include "NotifierConnection.h"
 
 
+namespace TrenchBroom::View
+{
+class Selection;
+}
+namespace TrenchBroom::Model
+{
+class Node;
+}
 class QSortFilterProxyModel;
 namespace TrenchBroom::View
 {
@@ -40,6 +49,7 @@ namespace TrenchBroom
 namespace View
 {
 class MapDocument;
+enum class SlotDirection;
 
 class IOSlotGrid : public QWidget
 {
@@ -51,12 +61,27 @@ private:
   QSortFilterProxyModel* m_proxyModel;
   IOSlotTable* m_table;
 
+  NotifierConnection m_notifierConnection;
+
 public:
   explicit IOSlotGrid(
     const std::weak_ptr<MapDocument>& document, QWidget* parent = nullptr);
 
+  void setFilter(SlotDirection filter) const;
+
 private:
-  void createGui(std::weak_ptr<MapDocument> document);
+  void createGui(const std::weak_ptr<MapDocument>& document);
+
+private: // Notification Handlers
+  void connectObservers();
+
+  void documentWasNewed(MapDocument* document);
+  void documentWasLoaded(MapDocument* document);
+  void nodesDidChange(const std::vector<Model::Node*>& nodes);
+  void selectionDidChange(const Selection& selection);
+
+private:
+  void updateControls();
 };
 
 } // namespace View

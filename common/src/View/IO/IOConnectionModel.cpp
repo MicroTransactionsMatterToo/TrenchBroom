@@ -61,5 +61,30 @@ ConnectionParamType ConnectionRow::paramType() const
 {
   return m_paramType;
 }
+int IOConnectionModel::rowCount(const QModelIndex& parent) const
+{
+  return 0;
+}
+int IOConnectionModel::columnCount(const QModelIndex& parent) const
+{
+  return 0;
+}
+QVariant IOConnectionModel::data(const QModelIndex& index, int role) const
+{
+  return QVariant{};
+}
+bool IOConnectionModel::setData(const QModelIndex& index, const QVariant& value, int role)
+{
+  return QAbstractTableModel::setData(index, value, role);
+}
+QVariant IOConnectionModel::headerData(
+  int section, Qt::Orientation orientation, int role) const
+{
+  return QAbstractTableModel::headerData(section, orientation, role);
+}
+Qt::ItemFlags IOConnectionModel::flags(const QModelIndex& index) const
+{
+  return QAbstractTableModel::flags(index);
+}
 } // namespace View
 } // namespace TrenchBroom

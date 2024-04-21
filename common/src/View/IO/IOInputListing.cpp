@@ -25,7 +25,15 @@
 
 #include "IOInputListing.h"
 
-namespace TrenchBroom {
-namespace View {
-} // View
-} // TrenchBroom
+namespace TrenchBroom
+{
+namespace View
+{
+IOInputListing::IOInputListing(std::weak_ptr<MapDocument> document, QWidget* parent)
+  : TabBookPage{parent}
+{
+}
+IOInputListing::~IOInputListing() = default;
+void IOInputListing::createGui(std::weak_ptr<MapDocument> document) {}
+} // namespace View
+} // namespace TrenchBroom

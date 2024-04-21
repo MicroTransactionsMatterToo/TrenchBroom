@@ -486,7 +486,6 @@ set(COMMON_SOURCE
         ${COMMON_SOURCE_DIR}/View/IO/IOSlotGrid.cpp
         ${COMMON_SOURCE_DIR}/View/IO/IOSlotTable.cpp
         ${COMMON_SOURCE_DIR}/View/IO/IOSlotModel.cpp
-        ${COMMON_SOURCE_DIR}/View/IO/IOSlotDelegate.cpp
         ${COMMON_SOURCE_DIR}/View/IO/IOInputListing.cpp
         ${COMMON_SOURCE_DIR}/View/IO/IOOutputEditor.cpp
         ${COMMON_SOURCE_DIR}/View/IO/IOConnectionGrid.cpp
@@ -1029,7 +1028,6 @@ set(COMMON_HEADER
         ${COMMON_SOURCE_DIR}/View/IO/IOSlotGrid.h
         ${COMMON_SOURCE_DIR}/View/IO/IOSlotTable.h
         ${COMMON_SOURCE_DIR}/View/IO/IOSlotModel.h
-        ${COMMON_SOURCE_DIR}/View/IO/IOSlotDelegate.h
         ${COMMON_SOURCE_DIR}/View/IO/IOInputListing.h
         ${COMMON_SOURCE_DIR}/View/IO/IOOutputEditor.h
         ${COMMON_SOURCE_DIR}/View/IO/IOConnectionGrid.h

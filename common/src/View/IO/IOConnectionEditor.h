@@ -48,8 +48,13 @@ private:
 
 public:
   explicit IOConnectionEditor(
-    std::weak_ptr<MapDocument> document, QWidget* parent = nullptr);
+    const std::weak_ptr<MapDocument>& document, QWidget* parent = nullptr);
   ~IOConnectionEditor() override;
+
+private:
+  void createGui();
+  void createOutputEditor();
+  void createInputListing();
 };
 
 } // namespace View

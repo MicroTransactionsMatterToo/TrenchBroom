@@ -20,8 +20,13 @@
  */
 
 #pragma once
+#include "NotifierConnection.h"
 
 
+namespace TrenchBroom::View
+{
+class Selection;
+}
 class QSplitter;
 namespace TrenchBroom
 {
@@ -38,13 +43,25 @@ private:
   IOSlotGrid* m_outputListing = nullptr;
   IOSlotGrid* m_inputListing = nullptr;
 
+  std::weak_ptr<MapDocument> m_document;
+  NotifierConnection m_notifierConnection;
+
 public:
-  explicit IOBrowser(std::weak_ptr<MapDocument> document, QWidget* parent = nullptr);
+  explicit IOBrowser(
+    const std::weak_ptr<MapDocument>& document, QWidget* parent = nullptr);
 
 private:
-  void createGui(std::weak_ptr<MapDocument> document);
-  QWidget* createOutputListing(QWidget* parent, std::weak_ptr<MapDocument> document);
-  QWidget* createInputListing(QWidget* parent, std::weak_ptr<MapDocument> document);
+  void createGui(const std::weak_ptr<MapDocument>& document);
+  void createOutputListing(QWidget* parent, const std::weak_ptr<MapDocument>& document);
+  void createInputListing(QWidget* parent, const std::weak_ptr<MapDocument>& document);
+
+private: // Signal Handling
+  void connectObservers();
+  void selectionDidChange(const Selection& selection);
+
+private: // Layout Stuff
+  void updateControls();
+  void updateMinimumSize();
 };
 
 } // namespace View

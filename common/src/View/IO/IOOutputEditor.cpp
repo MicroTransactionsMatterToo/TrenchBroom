@@ -27,5 +27,9 @@
 
 namespace TrenchBroom {
 namespace View {
+IOOutputEditor::IOOutputEditor(std::weak_ptr<MapDocument> document, QWidget* parent)
+  : TabBookPage{parent}
+{}
+IOOutputEditor::~IOOutputEditor() = default;
 } // View
 } // TrenchBroom
