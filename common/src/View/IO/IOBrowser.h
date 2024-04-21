@@ -42,6 +42,7 @@ private:
   QSplitter* m_splitter = nullptr;
   IOSlotGrid* m_outputListing = nullptr;
   IOSlotGrid* m_inputListing = nullptr;
+  QWidget* m_header = nullptr;
 
   std::weak_ptr<MapDocument> m_document;
   NotifierConnection m_notifierConnection;

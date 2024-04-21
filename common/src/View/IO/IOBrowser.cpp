@@ -49,6 +49,8 @@ void IOBrowser::createGui(const std::weak_ptr<MapDocument>& document)
   m_splitter = new Splitter{Qt::Horizontal};
   m_splitter->setObjectName("IOInspector_Browser_Splitter");
 
+  m_header = new QLabel{"IO Browser", this};
+
   createInputListing(m_splitter, document);
   createOutputListing(m_splitter, document);
 
@@ -70,6 +72,7 @@ void IOBrowser::createGui(const std::weak_ptr<MapDocument>& document)
   auto* layout = new QVBoxLayout{};
   layout->setContentsMargins(0, 0, 0, 0);
   layout->setSpacing(0);
+  layout->addWidget(m_header);
   layout->addWidget(m_splitter, 1);
   setLayout(layout);
 }
